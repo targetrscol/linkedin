@@ -1,0 +1,380 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Checklist LinkedIn — Profesional (Genérica) · 9 puntos</title>
+<style>
+  :root{
+    --bg:#0b1020;
+    --card:#0f1730;
+    --ink:#eaf0ff;
+    --muted:#93a4c5;
+    --brand:#5aa9ff;
+    --accent:#a9ff68;
+    --danger:#ff6b6b;
+    --ok:#6dffb5;
+    --chip:#1a2444;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:linear-gradient(180deg,#0b1020,#0c1429 30%,#0b1020 100%);color:var(--ink);font:16px/1.45 "Inter",system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial}
+  a{color:var(--brand);text-decoration:none}
+  .wrap{max-width:980px;margin:40px auto;padding:0 20px}
+  header{display:flex;gap:16px;align-items:center;justify-content:space-between;margin-bottom:22px}
+  header .title{display:flex;gap:12px;align-items:center}
+  .logo{inline-size:40px;block-size:40px;border-radius:10px;background:linear-gradient(135deg,var(--brand),#8bd0ff);display:grid;place-items:center;color:#02122a;font-weight:900}
+  h1{margin:0;font-size:1.5rem}
+  .badge{background:var(--chip);color:var(--ink);padding:6px 10px;border-radius:999px;font-size:.85rem;border:1px solid #233154}
+  .grid{display:grid;grid-template-columns:1fr;gap:14px}
+  @media(min-width:880px){ .grid{grid-template-columns:1fr 1fr} }
+  .card{background:radial-gradient(1200px 600px at 100% -50%, #25345f22, transparent 60%),var(--card);border:1px solid #1b2747;border-radius:16px;padding:16px;position:relative;overflow:hidden}
+  .card h3{margin:0 0 4px;font-size:1.05rem}
+  .card small{color:var(--muted)}
+  .card .what{margin:10px 0 8px;color:#d6e2ff}
+  .pill{display:inline-flex;align-items:center;gap:6px;background:#111b39;border:1px solid #26345f;color:#cfe1ff;padding:6px 10px;border-radius:999px;font-size:.8rem;margin-right:6px}
+  .criteria{list-style:none;padding:0;margin:8px 0 8px}
+  .criteria li{display:flex;align-items:flex-start;gap:10px;margin:6px 0}
+  .criteria input{margin-top:3px;accent-color:var(--brand)}
+  textarea{width:100%;min-height:70px;background:#0b1330;border:1px solid #243466;color:var(--ink);border-radius:10px;padding:10px;resize:vertical}
+  .controls{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0}
+  .btn{background:#16224a;border:1px solid #2a3b72;color:#e8f0ff;padding:10px 14px;border-radius:12px;cursor:pointer}
+  .btn:hover{filter:brightness(1.08)}
+  .btn-primary{background:linear-gradient(135deg,#2a63ff,#1f48c8);border-color:#2a63ff}
+  .btn-ghost{background:#0e1837;border-color:#1f2b52}
+  .btn-danger{background:#3b121d;border-color:#77223b;color:#ffd8e1}
+  .toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 18px}
+  .statbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .stat{background:#0d1736;border:1px solid #213060;padding:8px 12px;border-radius:12px;color:#cfe1ff}
+  .right{margin-left:auto}
+  .progress{display:flex;align-items:center;gap:12px}
+  .ring{inline-size:60px;block-size:60px;position:relative}
+  .ring svg{transform:rotate(-90deg);}
+  .ring .txt{position:absolute;inset:0;display:grid;place-items:center;font-weight:700;font-size:.9rem}
+  .filter{margin-left:auto}
+  .footer{margin:28px 0;color:#9fb2d8}
+  .hide{display:none !important}
+  .header-note{color:#cfe1ff;margin:0 0 6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="title">
+      <div class="logo">9</div>
+      <div>
+        <h1>Checklist LinkedIn — <span style="color:var(--brand)">Profesional (Genérica)</span></h1>
+        <p class="header-note">Aplica a cualquier perfil: empleo, ventas, consultoría, liderazgo o marca personal.</p>
+      </div>
+    </div>
+    <span class="badge" id="today"></span>
+  </header>
+
+  <div class="toolbar">
+    <div class="progress">
+      <div class="ring" aria-hidden="true">
+        <svg width="60" height="60">
+          <circle cx="30" cy="30" r="26" fill="none" stroke="#1b2a55" stroke-width="8"></circle>
+          <circle id="ring" cx="30" cy="30" r="26" fill="none" stroke="url(#g)" stroke-width="8" stroke-linecap="round" stroke-dasharray="163.36" stroke-dashoffset="163.36"></circle>
+          <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#5aa9ff"/><stop offset="100%" stop-color="#a9ff68"/></linearGradient></defs>
+        </svg>
+        <div class="txt" id="pct">0%</div>
+      </div>
+      <div class="statbar">
+        <div class="stat">Items listos: <b id="done">0</b>/<span id="total">0</span></div>
+        <div class="stat">Criterios cumplidos: <b id="critDone">0</b>/<span id="critTotal">0</span></div>
+      </div>
+    </div>
+    <div class="filter right">
+      <label class="pill"><input type="checkbox" id="onlyPending"/> Mostrar solo pendientes</label>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="btn btn-primary" id="save">Guardar en este dispositivo</button>
+    <button class="btn btn-ghost" id="export">Exportar (.json)</button>
+    <label class="btn btn-ghost" for="importFile">Importar</label><input id="importFile" type="file" accept="application/json" class="hide"/>
+    <button class="btn btn-ghost" id="print">Imprimir / PDF</button>
+    <button class="btn btn-danger right" id="reset">Restablecer</button>
+  </div>
+
+  <section class="grid" id="cards"></section>
+
+  <p class="footer">Consejo: si te falta tiempo, prioriza <b>Banner/Titular</b> → <b>Destacados</b> → <b>Mensajes y seguimiento</b>. Eso mueve entrevistas, ventas y oportunidades.</p>
+</div>
+
+<script>
+const DATA = [
+  {
+    id:"p1",
+    titulo:"Promesa & CTA visibles (banner + titular)",
+    quees:"Es tu propuesta de valor en 1 vistazo + la acción siguiente. Debe aclarar quién eres, qué aportas y cómo pueden avanzar contigo.",
+    criterios:[
+      "Headline claro con beneficio (8–12 palabras)",
+      "Tu público objetivo nombrado (clientes/empleadores/aliados)",
+      "CTA único en banner: “Agenda 15 min” o “Solicitar información”",
+      "Titular con fórmula: Ayudo a [quién] a [resultado] con/mediante [método]"
+    ]
+  },
+  {
+    id:"p2",
+    titulo:"“Acerca de” escaneable (150–200 palabras)",
+    quees:"Tu pitch ampliado: problema que resuelves, tu método en 3 pasos, resultado típico y CTA. En bloques breves y fáciles de leer.",
+    criterios:[
+      "Estructura: Problema → 3 pasos → Resultado → CTA",
+      "Incluye una evidencia (métrica/ejemplo)",
+      "CTA al inicio y al final",
+      "Lenguaje claro, sin jerga innecesaria"
+    ]
+  },
+  {
+    id:"p3",
+    titulo:"Destacados que convierten",
+    quees:"La vitrina clicable del perfil. Debe invitar a la acción con un recurso útil, un caso y el enlace para contactarte.",
+    criterios:[
+      "Recurso útil (guía/plantilla/portafolio/demo) visible",
+      "Caso o testimonio breve con antes/después",
+      "Contacto/Agenda en primer pantallazo",
+      "Orden: Recurso → Caso/Testimonio → Contacto/Agenda"
+    ]
+  },
+  {
+    id:"p4",
+    titulo:"Publicaciones de valor (anclas semanales)",
+    quees:"Piezas ‘guardables’ que posicionan y abren conversación: documentos/carruseles, casos, comparativas, guías, video breve.",
+    criterios:[
+      "≥ 2 publicaciones ‘guardables’ por semana",
+      "≥ 1 caso/testimonio por semana",
+      "≥ 1 publicación con invitación concreta (oferta/agenda)",
+      "Cadencia 2–3 veces/semana (horarios de mayor respuesta)"
+    ]
+  },
+  {
+    id:"p5",
+    titulo:"Estructura de cada post",
+    quees:"Plantilla narrativa para publicar con intención: gancho, valor práctico y un CTA que invite a responder o contactar.",
+    criterios:[
+      "Gancho concreto (problema/beneficio en 1 línea)",
+      "3–5 bullets/ideas accionables, líneas cortas",
+      "CTA simple (palabra-gatillo o ‘agenda 15 min’)",
+      "3–5 hashtags relevantes + comentario ancla propio"
+    ]
+  },
+  {
+    id:"p6",
+    titulo:"Interacción estratégica",
+    quees:"Visibilidad con sentido: comentar con valor en publicaciones relevantes y responder rápido a quienes te escriben.",
+    criterios:[
+      "Comentar con la fórmula: Insight → Ejemplo → Pregunta",
+      "Responder comentarios en < 24 h",
+      "Participar en 3–5 publicaciones de tu sector/día",
+      "Mencionar/agradecer a colaboradores/cuando aporte"
+    ]
+  },
+  {
+    id:"p7",
+    titulo:"Crecimiento de red (personas adecuadas)",
+    quees:"Búsqueda activa de personas relevantes (clientes, empleadores, aliados). Construye una red que sí te abre puertas.",
+    criterios:[
+      "3 búsquedas guardadas por cargo/sector/país",
+      "Invitaciones personalizadas (10–20/día)",
+      "Tasa de aceptación ≥ 35–45 % (medir/semanal)",
+      "Ajustar filtros y mensajes si baja la aceptación"
+    ]
+  },
+  {
+    id:"p8",
+    titulo:"Mensajería y seguimiento (DMs)",
+    quees:"Puente hacia la entrevista/reunión: secuencias simples con valor, pregunta y propuesta concreta.",
+    criterios:[
+      "Secuencia: Recurso → Pregunta (48–72 h) → Propuesta/Agenda",
+      "Personaliza con audio/nota o video breve (≤ 2 min)",
+      "Propuestas claras: agenda, reunión, portfolio o demo",
+      "Registrar etapa y siguiente paso (evitar perder leads)"
+    ]
+  },
+  {
+    id:"p9",
+    titulo:"Métricas & sistema",
+    quees:"Tu tablero de control: mide lo que importa, recicla lo que funciona y decide qué dejar de hacer.",
+    criterios:[
+      "Pipeline: Nuevo → Interesado → Reunión → Propuesta → Cierre",
+      "Revisión semanal de indicadores (visitas, DMs, reuniones, cierres)",
+      "Reciclar lo que genera respuestas; eliminar lo que no",
+      "Registro actualizado (Notion/Sheets/CRM)"
+    ]
+  }
+];
+
+const STORAGE_KEY = "linkedin_checklist_generica_v1";
+
+const state = { items: {} };
+
+function init(){
+  document.getElementById("today").textContent = new Date().toLocaleDateString("es-CO", { weekday:"long", year:"numeric", month:"long", day:"numeric" });
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if(saved){
+    try{ Object.assign(state, JSON.parse(saved)); }catch(e){}
+  }
+  const cards = document.getElementById("cards");
+  cards.innerHTML = "";
+  DATA.forEach((d,i)=>{
+    const s = state.items[d.id] || {done:false, notes:"", criteria:{} };
+    state.items[d.id] = s;
+    const card = document.createElement("article");
+    card.className = "card";
+    card.dataset.id = d.id;
+
+    const h = document.createElement("div");
+    h.style.display="flex"; h.style.justifyContent="space-between"; h.style.alignItems="center"; h.style.gap="10px";
+    const heading = document.createElement("h3");
+    heading.textContent = (i+1)+") "+d.titulo;
+    const pill = document.createElement("label");
+    pill.className = "pill";
+    const cb = document.createElement("input");
+    cb.type="checkbox"; cb.checked = !!s.done; cb.addEventListener("change", ()=>{ s.done = cb.checked; saveSilent(); refreshProgress(); applyFilter(); });
+    pill.prepend(cb); pill.append("Listo");
+    h.append(heading,pill);
+
+    const what = document.createElement("p");
+    what.className = "what";
+    what.textContent = d.quees;
+
+    const ul = document.createElement("ul");
+    ul.className = "criteria";
+    d.criterios.forEach((c,idx)=>{
+      const li = document.createElement("li");
+      const cc = document.createElement("input");
+      cc.type="checkbox";
+      cc.checked = !!s.criteria[idx];
+      cc.addEventListener("change", ()=>{ s.criteria[idx] = cc.checked; saveSilent(); refreshProgress(); });
+      const lab = document.createElement("label");
+      lab.textContent = c; lab.style.cursor="pointer";
+      li.append(cc, lab);
+      ul.append(li);
+    });
+
+    const notes = document.createElement("textarea");
+    notes.placeholder = "Notas rápidas, evidencias, links…";
+    notes.value = s.notes || "";
+    notes.addEventListener("input", ()=>{ s.notes = notes.value; saveSilent(); });
+
+    card.append(h, what, ul, notes);
+    cards.append(card);
+  });
+
+  refreshProgress();
+  document.getElementById("save").onclick = save;
+  document.getElementById("export").onclick = exportJSON;
+  document.getElementById("importFile").onchange = importJSON;
+  document.getElementById("print").onclick = ()=>window.print();
+  document.getElementById("reset").onclick = resetAll;
+  document.getElementById("onlyPending").onchange = applyFilter;
+  applyFilter();
+}
+
+function refreshProgress(){
+  let critTotal = 0, critDone = 0;
+  DATA.forEach((d)=>{
+    const s = state.items[d.id] || {};
+    (d.criterios||[]).forEach((_,idx)=>{
+      critTotal++;
+      if(s.criteria && s.criteria[idx]) critDone++;
+    });
+  });
+  const done = DATA.filter(d=> state.items[d.id]?.done).length;
+  document.getElementById("done").textContent = done;
+  document.getElementById("total").textContent = DATA.length;
+  document.getElementById("critDone").textContent = critDone;
+  document.getElementById("critTotal").textContent = critTotal;
+  const pct = Math.round((critDone/Math.max(1,critTotal))*100);
+  document.getElementById("pct").textContent = pct+"%";
+  const C = 2*Math.PI*26;
+  const off = C - (C * pct/100);
+  document.getElementById("ring").setAttribute("stroke-dasharray", C.toFixed(2));
+  document.getElementById("ring").setAttribute("stroke-dashoffset", off.toFixed(2));
+}
+
+function applyFilter(){
+  const only = document.getElementById("onlyPending").checked;
+  document.querySelectorAll(".card").forEach(card=>{
+    const id = card.dataset.id;
+    const s = state.items[id];
+    card.style.display = (only && s.done) ? "none" : "";
+  });
+}
+
+function save(){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  toast("✅ Progreso guardado en este dispositivo.");
+}
+function saveSilent(){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+function exportJSON(){
+  const blob = new Blob([JSON.stringify(state,null,2)], {type:"application/json"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "checklist_linkedin_generica.json";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+function importJSON(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev)=>{
+    try{
+      const obj = JSON.parse(ev.target.result);
+      if(obj && obj.items){
+        Object.assign(state, obj);
+        init();
+        toast("✅ Checklist importado.");
+      }else{
+        toast("⚠️ Archivo inválido.");
+      }
+    }catch(err){
+      toast("⚠️ No se pudo importar.");
+    }
+  };
+  reader.readAsText(file);
+}
+function resetAll(){
+  if(!confirm("¿Restablecer el checklist? Se borrará el progreso guardado.")) return;
+  localStorage.removeItem(STORAGE_KEY);
+  Object.keys(state.items).forEach(k=> delete state.items[k]);
+  init();
+  toast("🔄 Checklist restablecido.");
+}
+
+function toast(msg){
+  let t = document.getElementById("toast");
+  if(!t){
+    t = document.createElement("div");
+    t.id="toast";
+    t.style.position="fixed"; t.style.left="50%"; t.style.bottom="24px";
+    t.style.transform="translateX(-50%)";
+    t.style.background="#0f1a39"; t.style.border="1px solid #2c3e78";
+    t.style.padding="10px 14px"; t.style.borderRadius="10px";
+    t.style.color="#eaf0ff"; t.style.zIndex="9999";
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.style.opacity = "0";
+  t.style.transition = "opacity .2s ease";
+  requestAnimationFrame(()=>{
+    t.style.opacity = "1";
+    setTimeout(()=>{
+      t.style.opacity = "0";
+    }, 1800);
+  });
+}
+
+document.addEventListener("DOMContentLoaded", init);
+</script>
+</body>
+</html>
